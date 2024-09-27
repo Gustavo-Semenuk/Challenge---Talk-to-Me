@@ -3,15 +3,14 @@
 ##Bibliotecas Streamlit
 import streamlit as st
 from streamlit_option_menu import option_menu
-##Bibliotecas Web Scrapping
-from bs4 import BeautifulSoup
-import requests
 ##Bibliotecas Conexão com banco Oracle
 import oracledb
+import Controllers.formulario_controler as formulario_controler
+import Models.Formulario as Formulario
 ##Bibliotecas Data Science
 import pandas as pd
 import numpy as np
-
+###Bibliotecas Stream lit 
 import streamlit as st
 
 
@@ -103,10 +102,17 @@ def formulario():
         if st.form_submit_button("Enviar"):
             if not input_name or not input_email or not input_estado or not input_contexto or not input_segmento:
                 st.error("Por favor, preencha todos os campos obrigatórios!")
-        else:
-            st.success("Formulário enviado com sucesso!")
-            # Aqui você pode adicionar a lógica para processar os dados do formulário
+            else:
+                st.success("Formulário enviado com sucesso!")
+                Formulario.nome = input_name
+                Formulario.email = input_email
+                Formulario.estado = input_estado
+                Formulario.contexto = input_contexto
+                Formulario.nome_empresa = input_nome_empresa
+                Formulario.site = input_site
+                Formulario.segmento = input_segmento
 
+                formulario_controler.insert_formulario(Formulario)
 
 def dashboards():
     st.title("Dashboards")

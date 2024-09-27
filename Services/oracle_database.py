@@ -1,25 +1,21 @@
 import oracledb
 
-server = 'oracledb'
-database = 'FIAP'
-username = 'RM550472'
-password = '070600'
-cnxn = pyodbc.connect
-cursor = cnxn.cursor
-
-
-
-
-
-
 try:
-        conn = oracledb.connect(
-            user=f"XXXXXX", password="XXXXXX", dsn="nome_host:porta/SID")
-    except Exception as e:
-        print("Erro de conexão com o Oracle:", e)
-        conexao = False
-    else:
-        conexao = True
-    with conn.cursor() as c_insert:
-        texto_coletado = "\n".join(soup.stripped_strings)
+    # Conectando ao banco de dados Oracle
+    conn = oracledb.connect(
+        user="RM550472", password="070600", dsn="ORACLE.FIAP.COM.BR:1521/ORCL"
+    )
+except oracledb.DatabaseError as e:
+    # Tratando erro de conexão
+    error_obj, = e.args
+    print("Erro de conexão com o Oracle:")
+    print(f"Erro código: {error_obj.code}")
+    print(f"Mensagem de erro: {error_obj.message}")
+    conexao = False
+else:
+    conexao = True
+    print("Conexão feita com sucesso!")
+
+
+
 

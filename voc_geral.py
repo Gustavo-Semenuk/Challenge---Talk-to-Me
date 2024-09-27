@@ -58,3 +58,37 @@ while start_programa in ['Sim', 'sim', 'SIM', 'S', 's']:
 
     if start_programa in ['Não', 'NÃO', 'não', 'N', 'n']:
         print('Programa Finalizado\n')
+
+
+
+
+
+# Função de consulta
+def consultar_dados(conn):
+    try:
+        cursor = conn.cursor()
+
+        # Exemplo de uma consulta SQL - Altere para sua tabela
+        cursor.execute("SELECT * FROM T_BS_LIVRO")
+
+        # Obtenha todos os resultados da consulta
+        colunas = [col[0] for col in cursor.description]  # Nomes das colunas
+        dados = cursor.fetchall()  # Dados da consulta
+
+        # Converta para um DataFrame Pandas para melhor exibição
+        df = pd.DataFrame(dados, columns=colunas)
+
+        # Mostra os dados em formato de tabela
+        print(df)
+    except Exception as e:
+        print(f"Erro ao consultar os dados: {e}")
+    finally:
+        cursor.close()  # Fechar o cursor após o uso
+
+# Executa a consulta se a conexão for bem-sucedida
+if conexao:
+    consultar_dados(conn)
+    
+    # Fechando a conexão
+    conn.close()
+    print("Conexão fechada com sucesso.")
